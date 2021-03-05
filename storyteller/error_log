@@ -1,0 +1,2 @@
+[04-Mar-2021 18:25:12 UTC] PHP Warning:  date(): Invalid date.timezone value 'GMT+1', we selected the timezone 'UTC' for now. in /home/u657427665/domains/saagfood.sk/public_html/storyteller/default.php on line 284
+[04-Mar-2021 18:27:12 UTC] PHP Warning:  date(): Invalid date.timezone value 'GMT+1', we selected the timezone 'UTC' for now. in /home/u657427665/domains/saagfood.sk/public_html/storyteller/default.php on line 284

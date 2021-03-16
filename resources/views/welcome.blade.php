@@ -68,12 +68,14 @@
             @if (Route::has('login'))
                 <div class="top-right links">
                     @auth
-                        <a href="{{ url('/home') }}">Home</a>
+                        <a href="{{ url('/home') }}">Főoldal</a>
+                        <a href="{{ url('/home') }}">Könyveim</a>
+                        <a href="{{ url('/home') }}">Könyv létrehozása</a>
                     @else
-                        <a href="{{ route('login') }}">Login</a>
+                        <a href="{{ route('login') }}">Bejelentkezés</a>
 
                         @if (Route::has('register'))
-                            <a href="{{ route('register') }}">Register</a>
+                            <a href="{{ route('register') }}">Regisztráció</a>
                         @endif
                     @endauth
                 </div>
@@ -81,7 +83,7 @@
 
             <div class="content">
                 <div class="title m-b-md">
-                    Laravel
+                    StoryTeller
                 </div>
 
                 <div class="links">

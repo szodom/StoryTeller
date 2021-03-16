@@ -7,7 +7,7 @@
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
     <option name="LAST_RESOLUTION" value="IGNORE" />
   </component>
-  <component name="ComposerSettings" synchronizationState="SYNCHRONIZE">
+  <component name="ComposerSettings" doNotAsk="true" synchronizationState="SYNCHRONIZE">
     <pharConfigPath>$PROJECT_DIR$/composer.json</pharConfigPath>
     <execution />
   </component>
@@ -118,6 +118,7 @@
       <path value="$PROJECT_DIR$/vendor/symfony/http-client-contracts" />
       <path value="$PROJECT_DIR$/vendor/symfony/deprecation-contracts" />
       <path value="$PROJECT_DIR$/vendor/symfony/polyfill-intl-normalizer" />
+      <path value="$PROJECT_DIR$/vendor/laravel/ui" />
     </include_path>
   </component>
   <component name="ProjectId" id="1pLUVkeHr6dOb8mEEoiE0j41Y4h" />
@@ -148,6 +149,10 @@
       <option name="presentableId" value="Default" />
       <updated>1614961890072</updated>
       <workItem from="1614961894827" duration="382000" />
+      <workItem from="1615221723956" duration="17000" />
+      <workItem from="1615557197442" duration="2634000" />
+      <workItem from="1615635980910" duration="112000" />
+      <workItem from="1615636222015" duration="92000" />
     </task>
     <servers />
   </component>

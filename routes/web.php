@@ -22,3 +22,8 @@ Route::get('/home', 'HomeController@index')->name('home');
 Route::get('/gyik', function () {
     return view('gyik');
 });
+
+Route::get('/aff', function () {
+    return view('aff');
+});
+

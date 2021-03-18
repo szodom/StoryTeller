@@ -8,6 +8,8 @@
 
         <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@200;600&display=swap" rel="stylesheet">
         <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
         <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 
         <style>
@@ -27,6 +29,9 @@
                 letter-spacing: .1rem;
                 text-decoration: none;
                 text-transform: uppercase;
+            }
+            .logo{
+                max-width: 40%;
             }
             .faq_question {
                 margin: 0px;
@@ -57,7 +62,14 @@
         </script>
     </head>
     <body>
-        <nav class="navbar navbar-expand-lg">
+        <nav class="navbar navbar-expand">
+            <div class="navbar-collapse collapse w-100 order-1 order-md-0 dual-collapse2">
+                <ul class="navbar-nav mr-auto">
+                    <li class="nav-item active">
+                        <img src="images\logo.png" alt="logó" class="logo"></img>
+                    </li>
+                </ul>
+            </div>
             <div class="navbar-collapse collapse w-100 order-3 dual-collapse2">
                 @if (Route::has('login'))
                     <ul class="navbar-nav ml-auto">

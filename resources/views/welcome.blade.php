@@ -4,7 +4,7 @@
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1">
 
-        <title>Laravel</title>
+        <title>StoryTeller</title>
 
         <!-- Fonts -->
         <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@200;600&display=swap" rel="stylesheet">
@@ -34,39 +34,74 @@
                 position: relative;
             }
 
-            .top-right {
+            .center {
                 position: absolute;
                 right: 10px;
                 top: 18px;
+                
+                margin-left: 10px;
             }
 
-            .content {
-                text-align: center;
+            .top-left {
+                position: absolute;
+                left: 10px;
+                top: 10px;
             }
 
             .title {
-                font-size: 84px;
+                font-size: 150px;
+                position: absolute;
+                top: 10px;
+                margin-left: 300px;
+                text-align: center;
             }
 
             .links > a {
                 color: #636b6f;
+                padding: 10px 120px;
+                font-size: 40px;
+                font-weight: 600;
+                letter-spacing: .1rem;
+                text-decoration: none;
+                text-transform: uppercase;
+                border: 2px solid grey;
+            }
+            .links {
+                position: absolute;
+                top: 50%;
+                width: 100%;
+                text-align: center;
+            }
+            
+
+            .m-b-md {
+                margin-bottom: 30px;
+            }
+            .extras > a {
+                position: relative;
+                top: 300px;
+                color: #636b6f;
                 padding: 0 25px;
-                font-size: 13px;
+                font-size: 20px;
                 font-weight: 600;
                 letter-spacing: .1rem;
                 text-decoration: none;
                 text-transform: uppercase;
             }
-
-            .m-b-md {
-                margin-bottom: 30px;
-            }
         </style>
     </head>
     <body>
         <div class="flex-center position-ref full-height">
+            <header>
+                <div class="top-left logo">
+                    <img src="images/logo.png" alt="logo">
+                </div>
+                <div class="title m-b-md">
+                    StoryTeller
+                </div>
+            </header>
             @if (Route::has('login'))
-                <div class="top-right links">
+                <div class="center links">
                     @auth
                         <a href="{{ url('/home') }}">Főoldal</a>
                         <a href="{{ url('/home') }}">Könyveim</a>
@@ -80,23 +115,13 @@
                     @endauth
                 </div>
             @endif
-
-            <div class="content">
-                <div class="title m-b-md">
-                    StoryTeller
+                <div class="extras">
+                    <a href="https://github.com/szodom/StoryTeller/blob/main/README.md">Dokumentáció</a>
+                    <a href="{{ url('/aff') }}">Általános felhasználási feltételek</a>
+                    <a href="{{ url('/home') }}">Adatvédelmi tájékoztató</a> 
+                    <a href="{{ url('/gyik') }}">GyIK</a> 
+                    <a href="https://github.com/szodom/StoryTeller">GitHub</a>
                 </div>
-
-                <div class="links">
-                    <a href="https://laravel.com/docs">Docs</a>
-                    <a href="https://laracasts.com">Laracasts</a>
-                    <a href="https://laravel-news.com">News</a>
-                    <a href="https://blog.laravel.com">Blog</a>
-                    <a href="https://nova.laravel.com">Nova</a>
-                    <a href="https://forge.laravel.com">Forge</a>
-                    <a href="https://vapor.laravel.com">Vapor</a>
-                    <a href="https://github.com/laravel/laravel">GitHub</a>
-                </div>
-            </div>
         </div>
     </body>
 </html>

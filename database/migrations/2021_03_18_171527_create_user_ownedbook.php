@@ -14,18 +14,20 @@ class CreateUserOwnedbook extends Migration
     public function up()
     {
         Schema::create('user_ownedbook', function (Blueprint $table) {
-            $table->bigInteger('userID');
-            $table->bigInteger('bookID');
+            $table->bigInteger('userID')->unsigned();
+            $table->bigInteger('bookID')->unsigned();
             $table->integer('actualPage');
 
             //Connection to user table
             $table->foreign('userID')
-                ->references('id')->on('users')
+                ->references('id')
+                ->on('users')
                 ->onDelete('cascade');
 
             //Connection to book table
             $table->foreign('bookID')
-                ->references('id')->on('book')
+                ->references('id')
+                ->on('book')
                 ->onDelete('cascade');
         });
     }

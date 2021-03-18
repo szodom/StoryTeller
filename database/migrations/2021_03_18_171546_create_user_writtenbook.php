@@ -14,8 +14,8 @@ class CreateUserWrittenbook extends Migration
     public function up()
     {
         Schema::create('user_writtenbook', function (Blueprint $table) {
-            $table->bigInteger('userID');
-            $table->bigInteger('bookID');
+            $table->bigInteger('userID')->unsigned();
+            $table->bigInteger('bookID')->unsigned();
             $table->boolean('completed');
 
             //Connection to user table

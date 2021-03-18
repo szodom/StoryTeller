@@ -17,7 +17,7 @@ class CreateComments extends Migration
             $table->bigIncrements('id');
             $table->string('commentText');
             $table->string('commentWriter');
-            $table->timestamps('commentDate');
+            $table->dateTime('commentDate');
         });
     }
 

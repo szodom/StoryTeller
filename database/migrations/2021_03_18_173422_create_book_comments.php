@@ -14,8 +14,8 @@ class CreateBookComments extends Migration
     public function up()
     {
         Schema::create('book_comments', function (Blueprint $table) {
-            $table->bigInteger('bookID');
-            $table->bigInteger('commentID');
+            $table->bigInteger('bookID')->unsigned();
+            $table->bigInteger('commentID')->unsigned();
 
             //Connection to book table
             $table->foreign('bookID')

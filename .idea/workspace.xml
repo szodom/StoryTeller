@@ -3,6 +3,10 @@
   <component name="ChangeListManager">
     <list default="true" id="9e690d1c-9cdb-424a-be13-4a1f63a4cfa3" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/database/migrations/2021_03_18_171527_create_user_ownedbook.php" beforeDir="false" afterPath="$PROJECT_DIR$/database/migrations/2021_03_18_171527_create_user_ownedbook.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/database/migrations/2021_03_18_171546_create_user_writtenbook.php" beforeDir="false" afterPath="$PROJECT_DIR$/database/migrations/2021_03_18_171546_create_user_writtenbook.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/database/migrations/2021_03_18_173157_create_comments.php" beforeDir="false" afterPath="$PROJECT_DIR$/database/migrations/2021_03_18_173157_create_comments.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/database/migrations/2021_03_18_173422_create_book_comments.php" beforeDir="false" afterPath="$PROJECT_DIR$/database/migrations/2021_03_18_173422_create_book_comments.php" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -166,7 +170,8 @@
       <workItem from="1615929964654" duration="964000" />
       <workItem from="1616006157333" duration="6051000" />
       <workItem from="1616018225294" duration="1600000" />
-      <workItem from="1616086729118" duration="3097000" />
+      <workItem from="1616086729118" duration="3440000" />
+      <workItem from="1616093202825" duration="491000" />
     </task>
     <servers />
   </component>

@@ -38,7 +38,7 @@
                 position: absolute;
                 right: 10px;
                 top: 18px;
-                
+
                 margin-left: 10px;
             }
 
@@ -72,7 +72,7 @@
                 width: 100%;
                 text-align: center;
             }
-            
+
 
             .m-b-md {
                 margin-bottom: 30px;
@@ -105,7 +105,7 @@
                     @auth
                         <a href="{{ url('/home') }}">Főoldal</a>
                         <a href="{{ url('/home') }}">Könyveim</a>
-                        <a href="{{ url('/home') }}">Könyv létrehozása</a>
+                        <a href="{{ url('/create_book') }}">Könyv létrehozása</a>
                     @else
                         <a href="{{ route('login') }}">Bejelentkezés</a>
 
@@ -118,8 +118,8 @@
                 <div class="extras">
                     <a href="https://github.com/szodom/StoryTeller/blob/main/README.md">Dokumentáció</a>
                     <a href="{{ url('/aff') }}">Általános felhasználási feltételek</a>
-                    <a href="{{ url('/dss') }}">Adatvédelmi tájékoztató</a> 
-                    <a href="{{ url('/gyik') }}">GyIK</a> 
+                    <a href="{{ url('/dss') }}">Adatvédelmi tájékoztató</a>
+                    <a href="{{ url('/gyik') }}">GyIK</a>
                     <a href="https://github.com/szodom/StoryTeller">GitHub</a>
                 </div>
         </div>

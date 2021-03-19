@@ -2,11 +2,10 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="9e690d1c-9cdb-424a-be13-4a1f63a4cfa3" name="Default Changelist" comment="">
+      <change afterPath="$PROJECT_DIR$/resources/views/create_book.blade.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/database/migrations/2021_03_18_171527_create_user_ownedbook.php" beforeDir="false" afterPath="$PROJECT_DIR$/database/migrations/2021_03_18_171527_create_user_ownedbook.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/database/migrations/2021_03_18_171546_create_user_writtenbook.php" beforeDir="false" afterPath="$PROJECT_DIR$/database/migrations/2021_03_18_171546_create_user_writtenbook.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/database/migrations/2021_03_18_173157_create_comments.php" beforeDir="false" afterPath="$PROJECT_DIR$/database/migrations/2021_03_18_173157_create_comments.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/database/migrations/2021_03_18_173422_create_book_comments.php" beforeDir="false" afterPath="$PROJECT_DIR$/database/migrations/2021_03_18_173422_create_book_comments.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/resources/views/welcome.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/welcome.blade.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/routes/web.php" beforeDir="false" afterPath="$PROJECT_DIR$/routes/web.php" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -26,6 +25,14 @@
   </component>
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+  </component>
+  <component name="GitSEFilterConfiguration">
+    <file-type-list>
+      <filtered-out-file-type name="LOCAL_BRANCH" />
+      <filtered-out-file-type name="REMOTE_BRANCH" />
+      <filtered-out-file-type name="TAG" />
+      <filtered-out-file-type name="COMMIT_BY_MESSAGE" />
+    </file-type-list>
   </component>
   <component name="PhpWorkspaceProjectConfiguration">
     <include_path>
@@ -172,6 +179,9 @@
       <workItem from="1616018225294" duration="1600000" />
       <workItem from="1616086729118" duration="3440000" />
       <workItem from="1616093202825" duration="491000" />
+      <workItem from="1616155709146" duration="2036000" />
+      <workItem from="1616161257430" duration="17000" />
+      <workItem from="1616167586259" duration="1057000" />
     </task>
     <servers />
   </component>

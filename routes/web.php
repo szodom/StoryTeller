@@ -27,7 +27,11 @@ Route::get('/aff', function () {
     return view('aff');
 });
 
+
 Route::get('/dss', function() {
     return view('dss');
 });
 
+Route::get('/create_book', function() {
+    return view('create_book');
+});

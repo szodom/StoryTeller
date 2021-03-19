@@ -27,3 +27,7 @@ Route::get('/aff', function () {
     return view('aff');
 });
 
+Route::get('/dss', function() {
+    return view('dss');
+});
+

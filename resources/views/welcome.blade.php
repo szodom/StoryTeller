@@ -118,7 +118,7 @@
                 <div class="extras">
                     <a href="https://github.com/szodom/StoryTeller/blob/main/README.md">Dokumentáció</a>
                     <a href="{{ url('/aff') }}">Általános felhasználási feltételek</a>
-                    <a href="{{ url('/home') }}">Adatvédelmi tájékoztató</a> 
+                    <a href="{{ url('/dss') }}">Adatvédelmi tájékoztató</a> 
                     <a href="{{ url('/gyik') }}">GyIK</a> 
                     <a href="https://github.com/szodom/StoryTeller">GitHub</a>
                 </div>

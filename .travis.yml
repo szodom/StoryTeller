@@ -12,8 +12,8 @@ before_script:
   - composer install --no-interaction
   - composer update
   - php artisan key:generate
-  - php artisan migrate
+  - php artisan serve
   
 script:
-  - vendor/bin/phpunit --coverage-text
+  - vendor/bin/phpunit
 

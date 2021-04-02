@@ -9,14 +9,14 @@
 ## Dokumentáció
 
 A kódolt letöltve, vagy szerverre átmásolva telepíteni kell. Ennek a menete a következő:
-- Belépünk az alap könyvtárba, ahol futtatjuk a composer install parancsot
-- Ezután a composer update parancsot (ez egy frissebb verzióra hozza az appot)
+- Belépünk az alap könyvtárba, ahol futtatjuk a `composer install` parancsot
+- Ezután a `composer update` parancsot (ez egy frissebb verzióra hozza az appot)
 - A fileok közt van egy .env.exampe file, amit le kell másolni .env kiterjesztésre, itt be kell állítani az smtp szerverünket és az adatbázist, amiből az app majd dolgozni tud
-- Ezekután szükségünk lesz egy kulcsra, amit a consolba írt 'php artisan key:generate' parancs hoz létre -> enélkül nem tudjuk az appot futtatni
-- Miután helyesen ki lett töltve az adatbázis elérés, futtatjuk a 'php artisan migrate' parancsot, ami létrehozza a szükséges adattáblákat
+- Ezekután szükségünk lesz egy kulcsra, amit a consolba írt `php artisan key:generate` parancs hoz létre -> enélkül nem tudjuk az appot futtatni
+- Miután helyesen ki lett töltve az adatbázis elérés, futtatjuk a `php artisan migrate` parancsot, ami létrehozza a szükséges adattáblákat
 
 ## UI hiba esetén
-- Ha a weboldalon grafikus megjelenési probléma tapasztalható, futtatni kell az 'npm install' parancsot, majd a 'composer update'-t
+- Ha a weboldalon grafikus megjelenési probléma tapasztalható, futtatni kell az `npm install` parancsot, majd a `composer update`-t
 
 ## SMTP hiba esetén
 - Ha nem tud az app emailt küldeni (socket ssl hiba), de az smtp jól van beállítva, akkor keresd meg a következő mappát: vendor\swiftmailer\lib\classes\Swift\Transport\StreamBuffer.php

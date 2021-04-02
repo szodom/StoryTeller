@@ -115,7 +115,7 @@
             <p>
             További információkat a jelen Általános Felhasználási Feltételek alábbi melléklete tartalmaz, amely a jelen ÁFF elválaszthatatlan részét képezi.
             </p>
-            <p><a href="#">Adatkezelési tájékoztató</a></p>
+            <p><a href="{{ url('/dss') }}">Adatkezelési tájékoztató</a></p>
             <p>
             Szerzői jogot, vagy védjegyet sértő tartalom jelzése: Amennyiben Ön azt észleli, hogy a szerzői jogi törvény által védett szerzői művén fennálló jogát, vagy védjegyét a StoryTeller online oldalán megjelenő információ sérti, úgy az Ekrtv. értelmében teljes bizonyító erejű magánokiratba vagy közokiratba foglalt értesítésével felhívhatja a StoryTeller a jogát sértő tartalmú információ eltávolítására.
             </p>

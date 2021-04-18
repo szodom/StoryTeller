@@ -8,6 +8,11 @@
 
 ## Dokumentáció
 
+# Automata telepítés
+Konzolból futtasd a `./build.sh`-filet.
+- Miután helyesen ki lett töltve az adatbázis elérés a .env fileban, futtassuk a `php artisan migrate` parancsot, ami létrehozza a szükséges adattáblákat!
+
+# Manuális telepítés
 A kódolt letöltve, vagy szerverre átmásolva telepíteni kell. Ennek a menete a következő:
 - Belépünk az alap könyvtárba, ahol futtatjuk a `composer install` parancsot
 - Ezután a `composer update` parancsot (ez egy frissebb verzióra hozza az appot)

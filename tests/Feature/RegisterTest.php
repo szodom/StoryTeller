@@ -40,13 +40,30 @@ class RegisterTest extends TestCase
             'birthday' => $user->birthday,
         ]);
         $response->assertRedirect('/home');
+        
 
         $this->assertDatabaseHas('users', [
             'name' => $user->name,
             'email' => $user->email,
         ]);
+        
     }
-    public function test_user_fails_registration_with_invalid_confirmation() {
+    
+    public function test_user_fails_registration_with_invalid_email() {
+
+        $user = factory(User::class)->make();
+
+        $response = $this->post('register', [
+            'name' => $user->name,
+            'email' =>  'email:rfc,dns',
+            'password' => $user->password,
+            'password_confirmation' => $user->password,
+            'birthday' => $user->birthday,
+        ]);
+        $response->assertSessionHasErrors();
+    }
+
+    public function test_user_fails_registration_with_invalid_password_confirmation() {
 
         $user = factory(User::class)->make();
 
@@ -55,6 +72,20 @@ class RegisterTest extends TestCase
             'email' => $user->email,
             'password' => $user->password,
             'password_confirmation' => 'invalid',
+            'birthday' => $user->birthday,
+        ]);
+        $response->assertSessionHasErrors();
+    }
+
+    public function test_user_fails_registration_with_invalid_password() {
+
+        $user = factory(User::class)->make();
+
+        $response = $this->post('register', [
+            'name' => $user->name,
+            'email' => $user->email,
+            'password' => 'invalid',
+            'password_confirmation' => $user->password,
             'birthday' => $user->birthday,
         ]);
         $response->assertSessionHasErrors();

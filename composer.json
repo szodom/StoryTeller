@@ -62,6 +62,7 @@
     "scripts": {
         "format": "php-cs-fixer fix",
         "format-check": "php-cs-fixer fix --dry-run",
+        "add-hooks": "cghooks add",
         "post-autoload-dump": [
             "Illuminate\\Foundation\\ComposerScripts::postAutoloadDump",
             "@php artisan package:discover --ansi"

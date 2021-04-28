@@ -2,13 +2,12 @@
 
 namespace Tests\Feature;
 
-use Illuminate\Foundation\Testing\RefreshDatabase;
-use Tests\TestCase;
 use App\User;
+use Tests\TestCase;
+use Illuminate\Foundation\Testing\RefreshDatabase;
 
 class RegisterTest extends TestCase
 {
-
     use RefreshDatabase;
 
     
@@ -25,11 +24,10 @@ class RegisterTest extends TestCase
         $user = factory(User::class)->make();
         $response = $this->actingAs($user)->get('/register');
         $response->assertRedirect('/home');
-
     }
 
-    public function test_user_can_successfully_register() {
-
+    public function test_user_can_successfully_register()
+    {
         $user = factory(User::class)->make();
 
         $response = $this->post('register', [
@@ -46,11 +44,10 @@ class RegisterTest extends TestCase
             'name' => $user->name,
             'email' => $user->email,
         ]);
-        
     }
     
-    public function test_user_fails_registration_with_invalid_email() {
-
+    public function test_user_fails_registration_with_invalid_email()
+    {
         $user = factory(User::class)->make();
 
         $response = $this->post('register', [
@@ -63,8 +60,8 @@ class RegisterTest extends TestCase
         $response->assertSessionHasErrors();
     }
 
-    public function test_user_fails_registration_with_invalid_password_confirmation() {
-
+    public function test_user_fails_registration_with_invalid_password_confirmation()
+    {
         $user = factory(User::class)->make();
 
         $response = $this->post('register', [
@@ -77,8 +74,8 @@ class RegisterTest extends TestCase
         $response->assertSessionHasErrors();
     }
 
-    public function test_user_fails_registration_with_invalid_password() {
-
+    public function test_user_fails_registration_with_invalid_password()
+    {
         $user = factory(User::class)->make();
 
         $response = $this->post('register', [

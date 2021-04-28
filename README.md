@@ -28,3 +28,6 @@ A kódolt letöltve, vagy szerverre átmásolva telepíteni kell. Ennek a menete
 Majd kommenteld ki ezt: $options = [];
 Tedd be helyette ezt: $options['ssl'] = array('verify_peer' => false, 'verify_peer_name' => false, 'allow_self_signed' => true);
 Nem biztonságos megoldás, de amíg találsz egy megfelelő smtp kiszolgálót, addig tud rajta futni az oldal. Ezt mindenki saját felelősségre használja!
+
+## Commit
+- Commit előtt a 'composer format' paranccsal kell formázni a kódot, különben nem lehet commitolni.

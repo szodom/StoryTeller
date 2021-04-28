@@ -10,11 +10,13 @@
     "require": {
         "php": "^7.2.5|^8.0",
         "fideloper/proxy": "^4.4",
+        "friendsofphp/php-cs-fixer": "^2.18",
         "laravel/framework": "^v6.20.18",
         "laravel/tinker": "^2.5",
-        "phpstan/phpstan":"0.12.*"
+        "phpstan/phpstan": "0.12.*"
     },
     "require-dev": {
+        "brainmaestro/composer-git-hooks": "^2.8",
         "facade/ignition": "^1.16.4",
         "fakerphp/faker": "^1.9.1",
         "laravel/ui": "1.*",
@@ -31,6 +33,14 @@
     "extra": {
         "laravel": {
             "dont-discover": []
+        },
+        "hooks": {
+            "config": {
+                "stop-on-failure": ["pre-commit"]
+            },
+            "pre-commit": [
+                "composer format-check"
+            ]
         }
     },
     "autoload": {
@@ -50,6 +60,8 @@
     "minimum-stability": "dev",
     "prefer-stable": true,
     "scripts": {
+        "format": "php-cs-fixer fix",
+        "format-check": "php-cs-fixer fix --dry-run",
         "post-autoload-dump": [
             "Illuminate\\Foundation\\ComposerScripts::postAutoloadDump",
             "@php artisan package:discover --ansi"

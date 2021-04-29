@@ -28,10 +28,10 @@ Route::get('/aff', function () {
 });
 
 
-Route::get('/dss', function() {
+Route::get('/dss', function () {
     return view('dss');
 });
 
-Route::get('/create_book', function() {
+Route::get('/create_book', function () {
     return view('create_book');
 });

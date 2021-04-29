@@ -14,5 +14,6 @@ before_script:
   - php artisan key:generate
   
 script:
+  - vendor/bin/phpstan analyse
   - vendor/bin/phpunit
 

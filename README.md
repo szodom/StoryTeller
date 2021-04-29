@@ -8,10 +8,14 @@
 
 ## Dokumentáció
 
+# Automata telepítés
+Konzolból futtasd a `./build.sh`-filet.
+
+# Manuális telepítés
 A kódolt letöltve, vagy szerverre átmásolva telepíteni kell. Ennek a menete a következő:
 - Belépünk az alap könyvtárba, ahol futtatjuk a `composer install` parancsot
 - Ezután a `composer update` parancsot (ez egy frissebb verzióra hozza az appot)
-- A fileok közt van egy .env.exampe file, amit le kell másolni .env kiterjesztésre, itt be kell állítani az smtp szerverünket és az adatbázist, amiből az app majd dolgozni tud
+- A `composer add-hooks` paranccsal hozzáadjuk a git hookokat.
 - Ezekután szükségünk lesz egy kulcsra, amit a consolba írt `php artisan key:generate` parancs hoz létre -> enélkül nem tudjuk az appot futtatni
 - Miután helyesen ki lett töltve az adatbázis elérés, futtatjuk a `php artisan migrate` parancsot, ami létrehozza a szükséges adattáblákat
 
@@ -23,3 +27,6 @@ A kódolt letöltve, vagy szerverre átmásolva telepíteni kell. Ennek a menete
 Majd kommenteld ki ezt: $options = [];
 Tedd be helyette ezt: $options['ssl'] = array('verify_peer' => false, 'verify_peer_name' => false, 'allow_self_signed' => true);
 Nem biztonságos megoldás, de amíg találsz egy megfelelő smtp kiszolgálót, addig tud rajta futni az oldal. Ezt mindenki saját felelősségre használja!
+
+## Commit
+- Commit előtt a `composer format` paranccsal kell formázni a kódot, különben nem lehet commitolni.

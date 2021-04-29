@@ -2,9 +2,9 @@
 
 namespace Tests\Feature;
 
-use Illuminate\Foundation\Testing\RefreshDatabase;
-use Tests\TestCase;
 use App\User;
+use Tests\TestCase;
+use Illuminate\Foundation\Testing\RefreshDatabase;
 
 class LoginTest extends TestCase
 {
@@ -22,11 +22,10 @@ class LoginTest extends TestCase
         $user = factory(User::class)->make();
         $response = $this->actingAs($user)->get('/login');
         $response->assertRedirect('/home');
-
     }
 
-    public function test_user_can_successfully_login() {
-
+    public function test_user_can_successfully_login()
+    {
         $user = factory(User::class)->create([
             'password' => bcrypt($password = 'testpassword'),
         ]);
@@ -40,8 +39,8 @@ class LoginTest extends TestCase
         $this->assertAuthenticatedAs($user);
     }
 
-    public function test_user_cannot_login_with_incorrect_password() {
-
+    public function test_user_cannot_login_with_incorrect_password()
+    {
         $user = factory(User::class)->create([
             'password' => bcrypt($password = 'testpassword'),
         ]);
@@ -57,6 +56,4 @@ class LoginTest extends TestCase
         $this->assertFalse(session()->hasOldInput('password'));
         $this->assertGuest();
     }
-
-
 }

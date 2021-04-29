@@ -6,3 +6,4 @@ composer install --no-interaction;
 composer update;
 composer add-hooks;
 php artisan key:generate;
+php artisan migrate;

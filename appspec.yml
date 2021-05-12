@@ -1,3 +1,4 @@
+  
 version: 0.0
 os: linux
 files:
@@ -5,10 +6,21 @@ files:
     destination: /var/www/html/
 hooks:
   BeforeInstall:
-    - location: /var/www/html/build.sh
+    - location: scripts/install_dependencies.sh
+      timeout: 300
+      runas: root
+  AfterInstall:
+    - location: scripts/deploy_laravel.sh
+      timeout: 300
+      runas: root
+    - location: scripts/change_permissions.sh
+      timeout: 300
       runas: root
   ApplicationStart:
-    - location: php artisan serve
+    - location: scripts/start_server.sh
+      timeout: 120
+      runas: root    
+  ApplicationStop:
+    - location: scripts/stop_server.sh
+      timeout: 120
       runas: root
-
-

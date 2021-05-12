@@ -18,7 +18,7 @@
 # Set to "_all_" to automatically find all load balancers the instance is registered to.
 # Set to "_any_" will work as "_all_" but will not fail if instance is not attached to
 # any ASG or ELB, giving flexibility.
-ELB_LIST=""
+ELB_LIST="_all_"
 
 # Under normal circumstances, you shouldn't need to change anything below this line.
 # -----------------------------------------------------------------------------
@@ -28,14 +28,11 @@ export PATH="$PATH:/usr/bin:/usr/local/bin"
 # If true, all messages will be printed. If false, only fatal errors are printed.
 DEBUG=true
 
-# If true, all commands will have a initial jitter - use this if deploying to significant number of instances only
-INITIAL_JITTER=false
-
 # Number of times to check for a resouce to be in the desired state.
 WAITER_ATTEMPTS=60
 
 # Number of seconds to wait between attempts for resource to be in a state.
-WAITER_INTERVAL=3
+WAITER_INTERVAL=1
 
 # AutoScaling Standby features at minimum require this version to work.
 MIN_CLI_VERSION='1.3.25'
@@ -44,53 +41,7 @@ MIN_CLI_VERSION='1.3.25'
 FLAGFILE="/tmp/asg_codedeploy_flags-$DEPLOYMENT_GROUP_ID-$DEPLOYMENT_ID"
 
 # Handle ASG processes
-HANDLE_PROCS=false
-
-#
-# Performs CLI command and provides expotential backoff with Jitter between any failed CLI commands
-# FullJitter algorithm taken from: https://www.awsarchitectureblog.com/2015/03/backoff.html
-# Optional pre-jitter can be enabled  via GLOBAL var INITIAL_JITTER (set to "true" to enable)
-#
-exec_with_fulljitter_retry() {
-    local MAX_RETRIES=${EXPBACKOFF_MAX_RETRIES:-8} # Max number of retries
-    local BASE=${EXPBACKOFF_BASE:-2} # Base value for backoff calculation
-    local MAX=${EXPBACKOFF_MAX:-120} # Max value for backoff calculation
-    local FAILURES=0
-    local RESP
-
-    # Perform initial jitter sleep if enabled
-    if [ "$INITIAL_JITTER" = "true" ]; then
-      local SECONDS=$(( $RANDOM % ( ($BASE * 2) ** 2 ) ))
-      sleep $SECONDS
-    fi
-
-    # Execute Provided Command
-    RESP=$(eval $@)
-    until [ $? -eq 0 ]; do
-        FAILURES=$(( $FAILURES + 1 ))
-        if (( $FAILURES > $MAX_RETRIES )); then
-            echo "$@" >&2
-            echo " * Failed, max retries exceeded" >&2
-            return 1
-        else
-            local SECONDS=$(( $RANDOM % ( ($BASE * 2) ** $FAILURES ) ))
-            if (( $SECONDS > $MAX )); then
-                SECONDS=$MAX
-            fi
-
-            echo "$@" >&2
-            echo " * $FAILURES failure(s), retrying in $SECONDS second(s)" >&2
-            sleep $SECONDS
-
-            # Re-Execute provided command
-            RESP=$(eval $@)
-        fi
-    done
-
-    # Echo out CLI response which is captured by calling function
-    echo $RESP
-    return 0
-}
+HANDLE_PROCS=true
 
 # Usage: get_instance_region
 #
@@ -105,7 +56,8 @@ get_instance_region() {
     echo $AWS_REGION
 }
 
-AWS_CLI="exec_with_fulljitter_retry aws --region $(get_instance_region)"
+AWS_CLI="aws --region $(get_instance_region)"
+
 # Usage: set_flag <flag> <value>
 #
 #   Writes <flag>=<value> to FLAGFILE
@@ -122,7 +74,7 @@ set_flag() {
 #   Checks for <flag> in FLAGFILE. Echoes it's value and returns 0 on success or non-zero if it fails to read the file.
 get_flag() {
   if [ -r $FLAGFILE ]; then
-    local result=$(awk -F= -v flag="$1" '{if ( $1 == flag ) {print $2}}' $FLAGFILE | tail -1)
+    local result=$(awk -F= -v flag="$1" '{if ( $1 == flag ) {print $2}}' $FLAGFILE)
     echo "${result}"
     return 0
   else
@@ -139,9 +91,9 @@ get_flag() {
 check_suspended_processes() {
   # Get suspended processes in an array
   local suspended=($($AWS_CLI autoscaling describe-auto-scaling-groups \
-      --auto-scaling-group-name \"${asg_name}\" \
-      --query \'AutoScalingGroups[].SuspendedProcesses\' \
-      --output text \| awk \'{printf \$1\" \"}\'))
+      --auto-scaling-group-name "${asg_name}" \
+      --query 'AutoScalingGroups[].SuspendedProcesses' \
+      --output text | awk '{printf $1" "}'))
 
   if [ ${#suspended[@]} -eq 0 ]; then
     msg "No processes were suspended on the ASG before starting."
@@ -168,7 +120,7 @@ suspend_processes() {
 
   msg "Suspending ${processes[*]} processes"
   $AWS_CLI autoscaling suspend-processes \
-    --auto-scaling-group-name \"${asg_name}\" \
+    --auto-scaling-group-name "${asg_name}" \
     --scaling-processes ${processes[@]}
   if [ $? != 0 ]; then
     error_exit "Failed to suspend ${processes[*]} processes for ASG ${asg_name}. Aborting as this may cause issues."
@@ -235,7 +187,7 @@ autoscaling_group_name() {
     local autoscaling_name=$($AWS_CLI autoscaling describe-auto-scaling-instances \
         --instance-ids $instance_id \
         --output text \
-        --query AutoScalingInstances[0].AutoScalingGroupName | tr -d '\n\r')
+        --query AutoScalingInstances[0].AutoScalingGroupName)
 
     if [ $? != 0 ]; then
         return 1
@@ -286,7 +238,7 @@ autoscaling_enter_standby() {
     msg "Checking to see if ASG ${asg_name} will let us decrease desired capacity"
     local min_desired=$($AWS_CLI autoscaling describe-auto-scaling-groups \
         --auto-scaling-group-name "${asg_name}" \
-        --query \'AutoScalingGroups[0].[MinSize, DesiredCapacity]\' \
+        --query 'AutoScalingGroups[0].[MinSize, DesiredCapacity]' \
         --output text)
 
     local min_cap=$(echo $min_desired | awk '{print $1}')
@@ -300,7 +252,7 @@ autoscaling_enter_standby() {
         local new_min=$(($min_cap - 1))
         msg "Decrementing ASG ${asg_name}'s minimum size to $new_min"
         msg $($AWS_CLI autoscaling update-auto-scaling-group \
-            --auto-scaling-group-name \"${asg_name}\" \
+            --auto-scaling-group-name "${asg_name}" \
             --min-size $new_min)
         if [ $? != 0 ]; then
             msg "Failed to reduce ASG ${asg_name}'s minimum size to $new_min. Cannot put this instance into Standby."
@@ -318,7 +270,7 @@ autoscaling_enter_standby() {
     msg "Putting instance $instance_id into Standby"
     $AWS_CLI autoscaling enter-standby \
         --instance-ids $instance_id \
-        --auto-scaling-group-name \"${asg_name}\" \
+        --auto-scaling-group-name "${asg_name}" \
         --should-decrement-desired-capacity
     if [ $? != 0 ]; then
         msg "Failed to put instance $instance_id into Standby for ASG ${asg_name}."
@@ -342,7 +294,7 @@ autoscaling_enter_standby() {
 #   successful.
 autoscaling_exit_standby() {
     local instance_id=$1
-    local asg_name=${2} 
+    local asg_name=${2}
 
     msg "Checking if this instance has already been moved out of Standby state"
     local instance_state=$(get_instance_state_asg $instance_id)
@@ -364,8 +316,7 @@ autoscaling_exit_standby() {
     msg "Moving instance $instance_id out of Standby"
     $AWS_CLI autoscaling exit-standby \
         --instance-ids $instance_id \
-        --auto-scaling-group-name \"${asg_name}\"
-
+        --auto-scaling-group-name "${asg_name}"
     if [ $? != 0 ]; then
         msg "Failed to put instance $instance_id back into InService for ASG ${asg_name}."
         return 1
@@ -383,8 +334,8 @@ autoscaling_exit_standby() {
         error_exit "$FLAGFILE doesn't exist or is unreadable"
     elif [ "$tmp_flag_value" = "true" ]; then
         local min_desired=$($AWS_CLI autoscaling describe-auto-scaling-groups \
-            --auto-scaling-group-name \"${asg_name}\" \
-            --query \'AutoScalingGroups[0].[MinSize, DesiredCapacity]\' \
+            --auto-scaling-group-name "${asg_name}" \
+            --query 'AutoScalingGroups[0].[MinSize, DesiredCapacity]' \
             --output text)
 
         local min_cap=$(echo $min_desired | awk '{print $1}')
@@ -392,7 +343,7 @@ autoscaling_exit_standby() {
         local new_min=$(($min_cap + 1))
         msg "Incrementing ASG ${asg_name}'s minimum size to $new_min"
         msg $($AWS_CLI autoscaling update-auto-scaling-group \
-            --auto-scaling-group-name \"${asg_name}\" \
+            --auto-scaling-group-name "${asg_name}" \
             --min-size $new_min)
         if [ $? != 0 ]; then
             msg "Failed to increase ASG ${asg_name}'s minimum size to $new_min."
@@ -425,7 +376,7 @@ get_instance_state_asg() {
 
     local state=$($AWS_CLI autoscaling describe-auto-scaling-instances \
         --instance-ids $instance_id \
-        --query \"AutoScalingInstances[?InstanceId == \'$instance_id\'].LifecycleState \| [0]\" \
+        --query "AutoScalingInstances[?InstanceId == \`$instance_id\`].LifecycleState | [0]" \
         --output text)
     if [ $? != 0 ]; then
         return 1
@@ -445,22 +396,16 @@ reset_waiter_timeout() {
     if [ "$state_name" == "InService" ]; then
 
         # Wait for a health check to succeed
-        local elb_info=$($AWS_CLI elb describe-load-balancers \
+        local timeout=$($AWS_CLI elb describe-load-balancers \
             --load-balancer-name $elb \
-            --query \'LoadBalancerDescriptions[0].HealthCheck.[HealthyThreshold,Interval,Timeout]\' \
-            --output text)
-
-        local health_check_threshold=$(echo $elb_info | awk '{print $1}')
-        local health_check_interval=$(echo $elb_info | awk '{print $2}')
-        local health_check_timeout=$(echo $elb_info | awk '{print $3}')
-        local timeout=$((health_check_threshold * (health_check_interval + health_check_timeout)))
+            --query 'LoadBalancerDescriptions[0].HealthCheck.Timeout')
 
     elif [ "$state_name" == "OutOfService" ]; then
 
         # If connection draining is enabled, wait for connections to drain
         local draining_values=$($AWS_CLI elb describe-load-balancer-attributes \
             --load-balancer-name $elb \
-            --query \'LoadBalancerAttributes.ConnectionDraining.[Enabled,Timeout]\' \
+            --query 'LoadBalancerAttributes.ConnectionDraining.[Enabled,Timeout]' \
             --output text)
         local draining_enabled=$(echo $draining_values | awk '{print $1}')
         local timeout=$(echo $draining_values | awk '{print $2}')
@@ -508,7 +453,7 @@ wait_for_state() {
 
     msg "Checking $WAITER_ATTEMPTS times, every $WAITER_INTERVAL seconds, for instance $instance_id to be in state $state_name"
 
-    local instance_state=$($instance_state_cmd | tr -d '\n\r')
+    local instance_state=$($instance_state_cmd)
     local count=1
 
     msg "Instance is currently in state: $instance_state"
@@ -521,7 +466,7 @@ wait_for_state() {
 
         sleep $WAITER_INTERVAL
 
-        instance_state=$($instance_state_cmd | tr -d '\n\r')
+        instance_state=$($instance_state_cmd)
         count=$(($count + 1))
         msg "Instance is currently in state: $instance_state"
     done
@@ -546,7 +491,7 @@ get_instance_health_elb() {
     local instance_status=$($AWS_CLI elb describe-instance-health \
         --load-balancer-name $elb_name \
         --instances $instance_id \
-        --query \'InstanceStates[].State\' \
+        --query 'InstanceStates[].State' \
         --output text 2>/dev/null)
 
     if [ $? == 0 ]; then
@@ -575,7 +520,7 @@ validate_elb() {
     # Get the list of active instances for this LB.
     local elb_instances=$($AWS_CLI elb describe-load-balancers \
         --load-balancer-name $elb_name \
-        --query \'LoadBalancerDescriptions[*].Instances[*].InstanceId\' \
+        --query 'LoadBalancerDescriptions[*].Instances[*].InstanceId' \
         --output text)
     if [ $? != 0 ]; then
         msg "Couldn't describe ELB instance named '$elb_name'"
@@ -603,8 +548,8 @@ get_elb_list() {
     local elb_list=""
 
     elb_list=$($AWS_CLI elb describe-load-balancers \
-      --query \"LoadBalancerDescriptions[].[join\(\',\',Instances[?InstanceId==\'$instance_id\'].InstanceId\),LoadBalancerName]\" \
-      --output text \| grep $instance_id \| awk \'{ORS=\" \"\;print \$2}\')
+      --query $'LoadBalancerDescriptions[].[join(`,`,Instances[?InstanceId==`'$instance_id'`].InstanceId),LoadBalancerName]' \
+      --output text | grep $instance_id | awk '{ORS=" ";print $2}')
 
     if [ -z "$elb_list" ]; then
         return 1
@@ -649,7 +594,7 @@ register_instance() {
 #   $MIN_CLI_VERSION. Returns non-zero if the version is not high enough.
 check_cli_version() {
     if [ -z $1 ]; then
-        version=$($AWS_CLI --version 2\>\&1 \| cut -f1 -d\' \' \| cut -f2 -d/)
+        version=$($AWS_CLI --version 2>&1 | cut -f1 -d' ' | cut -f2 -d/)
     else
         version=$1
     fi

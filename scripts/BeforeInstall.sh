@@ -1,4 +1,6 @@
 #!/bin/bash
+
+export COMPOSER_HOME="$HOME/.config/composer";
 cd /var/www/html
 npm install
 composer install

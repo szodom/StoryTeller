@@ -30,3 +30,17 @@ Nem biztonságos megoldás, de amíg találsz egy megfelelő smtp kiszolgálót,
 
 ## Commit
 - Commit előtt a `composer format` paranccsal kell formázni a kódot, különben nem lehet commitolni.
+
+
+## Képes weboldal bemutató
+<img src="https://i.imgur.com/aqfBoon.png" alt="Főoldal">
+- Ezen a képen láthatjuk a főoldal megjelenését és az elérhető kattintható menüpontokat.
+
+<img src="https://i.imgur.com/07Cbqoo.png" alt="GyIK">
+- A Gyakran Ismételt Kérdésed oldalon találhatóak a gyarkan feltett kérdésekre adott válaszaink. Ezaz oldal ügyféltájékoztatási feladatokat lát el.
+
+<img src="https://i.imgur.com/LjS5RKq.png" alt="Login">
+- Ezen a lapon tudunk bejelentkezni a saját felhasználói fiókunkba.
+
+<img src="https://i.imgur.com/QQhKzIG.png" alt="Registration">
+- Pár alapvető adat megadásával ezen a lapon tudunk regisztrálni. Ez szükséges az oldal teljeskörű használatához.
